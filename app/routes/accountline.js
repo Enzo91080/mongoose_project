@@ -3,7 +3,7 @@ const router = express();
 const ctrlAccountLine = require("../controllers/accountline.js");
 
 
-router.get('/getAllAccountLine', ctrlAccountLine.getAll);
+router.get('/getAllAccountLine', ctrlAccountLine.getAllAccountLine);
 router.get("/:id", ctrlAccountLine.getAccountLine);
 router.post("/", ctrlAccountLine.addAccountLine);
 router.put("/:id", ctrlAccountLine.updateAccountLine);
