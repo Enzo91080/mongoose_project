@@ -1,3 +1,7 @@
+exports.getAllAccount = (req, res) => {
+  res.send("getAll");
+};
+
 exports.getAccount = (req, res) => {
   res.send("getAccount");
 };

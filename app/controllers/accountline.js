@@ -1,3 +1,7 @@
+exports.getAllAccountLine = (req, res) => {
+  res.send("Get all account line");
+}
+
 exports.getAccountLine = (req, res) => {
   res.send("Get account line");
 }
