@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express();
 const ctrlAccount = require("../controllers/account.js");
+const auth = require("../middlewares/auth.js");
 
-router.get("/getAllAccount", ctrlAccount.getAllAccount);
-router.get("/:id", ctrlAccount.getAccount);
-router.post("/", ctrlAccount.addAccount);
-router.put("/:id", ctrlAccount.updateAccount);
-router.delete("/:id", ctrlAccount.deleteAccount);
+router.get("/getAllAccount", auth, ctrlAccount.getAllAccount);
+router.get("/:id", auth, ctrlAccount.getAccount);
+router.post("/", auth, ctrlAccount.addAccount);
+router.put("/:id", auth, ctrlAccount.updateAccount);
+router.delete("/:id", auth, ctrlAccount.deleteAccount);
 
 module.exports = router;

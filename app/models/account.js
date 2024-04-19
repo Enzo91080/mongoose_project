@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const AccountLine = require("./accountline");
 const accountSchema = new mongoose.Schema({
   bankName: {
     type: String,
@@ -14,7 +14,7 @@ const accountSchema = new mongoose.Schema({
     maxlength: [50, "Custom name must be at most 50 characters long"],
   },
 
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -22,8 +22,28 @@ const accountSchema = new mongoose.Schema({
 
   lastUpdated: {
     type: Date,
-    required: [true, "Last updated is required"],
   },
+});
+
+accountSchema.pre("save", function (next) {
+  this.lastUpdated = Date.now();
+  next();
+});
+
+accountSchema.pre("findOneAndUpdate", function (next) {
+  this.set({ lastUpdated: Date.now() });
+  next();
+});
+
+// middleware qui supprime les lignes de compte quand je supprime le compte
+accountSchema.pre("findOneAndDelete", async function (next) {
+  try {
+    const accountId = this.getQuery()["_id"];
+    await AccountLine.deleteMany({ account: accountId });
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 const Account = mongoose.model("Account", accountSchema);
